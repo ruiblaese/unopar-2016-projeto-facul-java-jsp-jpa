@@ -1,4 +1,3 @@
-
 package modelo;
 
 import java.io.Serializable;
@@ -15,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,6 +29,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "tamanho")
 public class Tamanho implements Serializable {
+
     @Id
     @SequenceGenerator(name = "seq_tamanho", sequenceName = "seq_tamanho_id", allocationSize = 1)
     @GeneratedValue(generator = "seq_tamanho", strategy = GenerationType.SEQUENCE)
@@ -37,10 +39,9 @@ public class Tamanho implements Serializable {
     @Length(max = 50, message = "O descricao não pode ter mais de {max} caracteres")
     @Column(name = "descricao", length = 50, nullable = false)
     private String descricao;
-    
 
     public Tamanho() {
-    }       
+    }
 
     public Integer getId() {
         return id;
@@ -57,8 +58,6 @@ public class Tamanho implements Serializable {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-   
 
     @Override
     public int hashCode() {
