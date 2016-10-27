@@ -12,9 +12,10 @@ public class EntityManagerUtil {
     public static EntityManager getEntityManager() {
         if (factory == null) {
             factory = Persistence.createEntityManagerFactory("CasaDasMarmitas");
-        }
-        if (em == null) {
+        }                
+        if ((em == null) || (!em.isOpen())) {
             em = factory.createEntityManager();
+
         }
         return em;
     }

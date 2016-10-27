@@ -3,7 +3,7 @@
   <persistence-unit name="CasaDasMarmitas" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5496/CasaDasMarmitas"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/CasaDasMarmitas"/>
       <property name="javax.persistence.jdbc.password" value="ibs@Maker"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

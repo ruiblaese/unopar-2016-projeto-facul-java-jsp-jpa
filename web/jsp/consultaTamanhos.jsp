@@ -28,6 +28,10 @@
         <%
             EntityManager em;
             em = EntityManagerUtil.getEntityManager();
+            if (em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+            }
+            
 
             CriteriaQuery<Tamanho> criteria = em.getCriteriaBuilder().createQuery(Tamanho.class);
             criteria.select(criteria.from(Tamanho.class));
@@ -54,7 +58,7 @@
             <td class="min"><button onclick="<%out.print("excluir(" + tamanho.getId() + ");");%>" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></td>
         </tr>
         <%
-            }
+            }            
         %>
 
     </tbody>

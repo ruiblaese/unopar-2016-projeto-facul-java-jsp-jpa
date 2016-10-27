@@ -25,29 +25,58 @@
                         data: form.serialize()
                     }).done(function (data) {
                         // Optionally alert the user of success here...
-                        alert(data);
+                        $("#msgSucesso").text("Registro cadastrado com sucesso!");
+                        $("#alertaSucesso").show(1000, function () {
+                            setTimeout(function () {
+                                $("#alertaSucesso").hide(1000)
+                            }, 2000);
+
+                        });
                     }).fail(function (data) {
                         // Optionally alert the user of an error here...
+                        $("#msgErro").text(data);
+                        $("#alertaErro").show(2000);
                         alert(data);
                     });
                 });
             });
-            
+
             $(function () {
                 $('#cancelar').click(function (event) {
                     $("#tamanhoId").val("");
                     $("#descricao").val("");
                 })
             });
-            
-            $.get("jsp/consultaTamanhos.jsp", function (data, status) {
-                $("#consTamanhos").html(data);
-            });
+            function atualizaGrade() {
+                $.get("jsp/consultaTamanhos.jsp", function (data, status) {
+                    $("#consTamanhos").html(data);
+                });
+            }
+            atualizaGrade();
             function excluir(id) {
-                $.post("jsp/excluirTamanho.jsp", {id: id},
-                        function (data, status) {
-                            alert("Data: " + data + "\nStatus: " + status);
-                        });
+                if (id > 0) {
+                    $.post("jsp/excluirTamanho.jsp", {id: id},
+                            function (data, status) {                                
+                                if (status == "success") {
+                                    if (data.trim() == "success") {
+                                        atualizaGrade();
+                                        $("#msgSucesso").text("Registro excluido com sucesso!");
+                                        $("#alertaSucesso").show(1000, function () {
+                                            setTimeout(function () {
+                                                $("#alertaSucesso").hide(1000)
+                                            }, 2000);
+                                        });                                        
+                                    } else {                                        
+                                        $("#msgErro").text(data);
+                                        $("#alertaErro").show(1000, function () {
+                                            setTimeout(function () {
+                                                $("#alertaSucesso").hide(1000)
+                                            }, 2000);
+                                        });
+                                    }
+                                }
+                            })
+                }
             }
             function editar(id) {
                 $.post("jsp/excluirTamanho.jsp", {id: id},
@@ -66,14 +95,22 @@
                     <br>
                     <br>
                     <br>                        
-                    <div class="alert alert-dismissable alert-success" hidden>                                                
+                    <div class="alert alert-dismissable alert-success" id="alertaSucesso" name="alertaSucesso" hidden>                                                
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
                             ×
                         </button>
                         <h4>
-                            Alert!
-                        </h4> <strong>Warning!</strong> Best check yo self, you're not looking too good. <a href="#" class="alert-link">alert link</a>
+                            Sucesso!
+                        </h4><p id="msgSucesso"> <!--<strong>Warning!</strong>--> Best check yo self, you're not looking too good. <!--<a href="#" class="alert-link">alert link</a> --></p>
                     </div>
+                    <div class="alert alert-dismissable alert-danger" id="alertaErro" name="alertaErro" hidden>                                                
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            ×
+                        </button>
+                        <h4>
+                            Erro!
+                        </h4><p id="msgErro"> <!--<strong>Warning!</strong>--> Best check yo self, you're not looking too good. <!--<a href="#" class="alert-link">alert link</a> --></p>
+                    </div>                    
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-6">

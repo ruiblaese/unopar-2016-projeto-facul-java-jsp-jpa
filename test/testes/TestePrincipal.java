@@ -29,6 +29,41 @@ public class TestePrincipal {
         // TODO code application logic here
         EntityManager em;
         em = EntityManagerUtil.getEntityManager();
+        
+         Tamanho tamanho;
+
+        tamanho = new Tamanho();
+        tamanho.setDescricao("pequena");
+        em.getTransaction().begin();
+        em.persist(tamanho);
+        em.getTransaction().commit();
+        
+        tamanho = new Tamanho();
+        tamanho.setDescricao("pequena");
+        em.getTransaction().begin();
+        em.persist(tamanho);
+        em.getTransaction().commit();
+        
+        tamanho = new Tamanho();
+        tamanho.setDescricao("pequena");
+        em.getTransaction().begin();
+        em.persist(tamanho);
+        em.getTransaction().commit();
+        
+        tamanho = new Tamanho();
+        tamanho.setDescricao("pequena");
+        em.getTransaction().begin();
+        em.persist(tamanho);
+        em.getTransaction().commit();
+        
+        tamanho = new Tamanho();
+        tamanho.setDescricao("pequena");
+        em.getTransaction().begin();
+        em.persist(tamanho);
+        em.getTransaction().commit();
+        
+        /*
+         
 
         Cliente cliente = new Cliente();
         cliente.setNome("rui");
@@ -119,6 +154,7 @@ public class TestePrincipal {
         em.getTransaction().begin();
         em.persist(itemPedido);
         em.getTransaction().commit();
+    */
 
     }
 
