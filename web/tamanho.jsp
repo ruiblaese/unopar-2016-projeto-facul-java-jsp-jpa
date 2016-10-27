@@ -24,14 +24,21 @@
                         url: form.attr('action'),
                         data: form.serialize()
                     }).done(function (data) {
-                        // Optionally alert the user of success here...
-                        $("#msgSucesso").text("Registro cadastrado com sucesso!");
-                        $("#alertaSucesso").show(1000, function () {
-                            setTimeout(function () {
-                                $("#alertaSucesso").hide(1000)
-                            }, 2000);
+                        if (data.trim() == "success") {
+                            atualizaGrade();
+                            cancelarEdicao();                            
+                            $("#msgSucesso").text("Registro cadastrado com sucesso!");
+                            $("#alertaSucesso").show(1000, function () {
+                                setTimeout(function () {
+                                    $("#alertaSucesso").hide(1000)
+                                }, 2000);
 
-                        });
+                            });
+                        } else {
+                            $("#msgErro").text(data);
+                            $("#alertaErro").show(2000);
+                            alert(data);
+                        }
                     }).fail(function (data) {
                         // Optionally alert the user of an error here...
                         $("#msgErro").text(data);
@@ -40,23 +47,28 @@
                     });
                 });
             });
+            
+            function cancelarEdicao(){
+                $("#tamanhoId").val("");
+                    $("#descricao").val("");
+            }
 
             $(function () {
                 $('#cancelar').click(function (event) {
-                    $("#tamanhoId").val("");
-                    $("#descricao").val("");
+                    cancelarEdicao();
+                    
                 })
             });
             function atualizaGrade() {
-                $.get("jsp/consultaTamanhos.jsp", function (data, status) {
+                $.get("jsp/tamanho/consultaParaGrade.jsp", function (data, status) {
                     $("#consTamanhos").html(data);
                 });
             }
             atualizaGrade();
             function excluir(id) {
                 if (id > 0) {
-                    $.post("jsp/excluirTamanho.jsp", {id: id},
-                            function (data, status) {                                
+                    $.post("jsp/tamanho/excluir.jsp", {id: id},
+                            function (data, status) {
                                 if (status == "success") {
                                     if (data.trim() == "success") {
                                         atualizaGrade();
@@ -65,8 +77,8 @@
                                             setTimeout(function () {
                                                 $("#alertaSucesso").hide(1000)
                                             }, 2000);
-                                        });                                        
-                                    } else {                                        
+                                        });
+                                    } else {
                                         $("#msgErro").text(data);
                                         $("#alertaErro").show(1000, function () {
                                             setTimeout(function () {
@@ -79,9 +91,13 @@
                 }
             }
             function editar(id) {
-                $.post("jsp/excluirTamanho.jsp", {id: id},
+                $.post("jsp/tamanho/consParaAlterar.jsp", {id: id},
                         function (data, status) {
-                            alert("Data: " + data + "\nStatus: " + status);
+                            if (status == "success"){
+                                var obj = JSON.parse(data);
+                                $('#tamanhoId').val(obj.id);
+                                $('#descricao').val(obj.descricao);
+                            }                            
                         });
             }
         </script>
@@ -114,13 +130,8 @@
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-6">
-                            <form class="form-horizontal" id="formCadTamanho" name="formCadTamanho" action="jsp/testeVariaveis.jsp">
+                            <form class="form-horizontal" id="formCadTamanho" name="formCadTamanho" action="jsp/tamanho/alteracaoCadastro.jsp">
                                 <fieldset>
-
-
-                                    <!-- change col-sm-N to reflect how you would like your column spacing (http://getbootstrap.com/css/#forms-control-sizes) -->
-
-
                                     <!-- Form Name -->
                                     <legend>Cadastro de Tamanho</legend>
 
@@ -128,7 +139,7 @@
                                     <div class="form-group form-group-sm">
                                         <label for="tamanhoId" class="control-label col-sm-2">Id</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="tamanhoId" name="tamanhoId" placeholder="0" readonly="" disabled="">
+                                            <input type="text" class="form-control" id="tamanhoId" name="tamanhoId" placeholder="0" readonly="">
 
                                         </div>
                                     </div>

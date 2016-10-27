@@ -54,7 +54,7 @@
             <td>
                 <% out.println(tamanho.getDescricao()); %>
             </td>
-            <td class="min"><button onclick="<%out.print("alert(" + tamanho.getId() + ");");%>" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></td>
+            <td class="min"><button onclick="<%out.print("editar(" + tamanho.getId() + ");");%>" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></td>
             <td class="min"><button onclick="<%out.print("excluir(" + tamanho.getId() + ");");%>" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></td>
         </tr>
         <%
