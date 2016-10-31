@@ -1,16 +1,23 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.Enumeration"%>
-<%@page import="modelo.SituacaoPedido"%>
+<%@page import="modelo.Cliente"%>
 <%@page import="jpa.EntityManagerUtil"%>
 <%@page import="javax.persistence.EntityManager"%>
 <%
     String retorno = "erro";
-    String descricao = request.getParameter("descricao");
+    String nome = request.getParameter("nome");
+    String telefone = request.getParameter("telefone");
+    String endereco = request.getParameter("endereco");
+    String ponto_referencia = request.getParameter("ponto_referencia");
     int id = 0;
+    Calendar nascimento = null;
     
     //verifica se eh edicao ( no caso se tem id para ser alterado )
-    if (request.getParameterMap().containsKey("situacao_pedidoId")) {
-        if (!request.getParameter("situacao_pedidoId").isEmpty()) {
-            id = Integer.valueOf(request.getParameter("situacao_pedidoId"));
+    if (request.getParameterMap().containsKey("clienteId")) {
+        if (!request.getParameter("clienteId").isEmpty()) {
+            id = Integer.valueOf(request.getParameter("clienteId"));
+        } else if (!request.getParameter("nascimento").isEmpty()) {
+            nascimento = util.Funcoes.StringToCalendar(request.getParameter("nascimento"));
         }
     }
     
@@ -24,13 +31,20 @@
     
     //nao tem id \ id = 0 -> entra em cadastro
     if (id == 0) {
-        SituacaoPedido situacao_pedido = new SituacaoPedido();
-        situacao_pedido.setDescricao(descricao);
-        if (situacao_pedido != null) {
+        Cliente cliente = new Cliente();
+        cliente.setNome(nome);
+        cliente.setTelefone(telefone);
+        cliente.setEndereco(endereco);
+        cliente.setPonto_referencia(ponto_referencia);
+        if (nascimento != null){
+            cliente.setNascimento(nascimento);
+        };
+        
+        if (cliente != null) {
 
             try {
 
-                em.persist(situacao_pedido);
+                em.persist(cliente);
                 em.flush();
                 em.getTransaction().commit();
 
@@ -47,15 +61,21 @@
         }
     //tem id  -> entra em edicao 
     } else {
-        SituacaoPedido situacao_pedido = new SituacaoPedido();
-        situacao_pedido.setDescricao(descricao);
-        situacao_pedido.setId(id);
+        Cliente cliente = new Cliente();        
+        cliente.setId(id);
+        cliente.setNome(nome);
+        cliente.setTelefone(telefone);
+        cliente.setEndereco(endereco);
+        cliente.setPonto_referencia(ponto_referencia);
+        if (nascimento != null){
+            cliente.setNascimento(nascimento);
+        };        
 
-        em.find(SituacaoPedido.class, id);
+        em.find(Cliente.class, id);
 
         try {
 
-            em.merge(situacao_pedido);
+            em.merge(cliente);
             em.flush();
             em.getTransaction().commit();
 

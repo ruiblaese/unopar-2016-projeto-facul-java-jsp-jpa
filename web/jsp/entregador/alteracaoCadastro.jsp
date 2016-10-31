@@ -1,19 +1,27 @@
+<%@page import="modelo.Empresa"%>
 <%@page import="java.util.Enumeration"%>
-<%@page import="modelo.SituacaoPedido"%>
+<%@page import="modelo.Entregador"%>
 <%@page import="jpa.EntityManagerUtil"%>
 <%@page import="javax.persistence.EntityManager"%>
 <%
     String retorno = "erro";
-    String descricao = request.getParameter("descricao");
+    String nome = request.getParameter("nome");
+    String cpf = request.getParameter("cpf");
+    String rg = request.getParameter("rg");
+    String celular = request.getParameter("celular");    
+
     int id = 0;
-    
+    int empresaId = 0;
+
     //verifica se eh edicao ( no caso se tem id para ser alterado )
-    if (request.getParameterMap().containsKey("situacao_pedidoId")) {
-        if (!request.getParameter("situacao_pedidoId").isEmpty()) {
-            id = Integer.valueOf(request.getParameter("situacao_pedidoId"));
+    if (request.getParameterMap().containsKey("entregadorId")) {
+        if (!request.getParameter("entregadorId").isEmpty()) {
+            id = Integer.valueOf(request.getParameter("entregadorId"));
+        } else if (!request.getParameter("empresaId").isEmpty()) {
+            empresaId = Integer.valueOf(request.getParameter("empresaId"));
         }
     }
-    
+
     EntityManager em;
     em = EntityManagerUtil.getEntityManager();
     if (!em.getTransaction().isActive()) {
@@ -21,16 +29,27 @@
     }
     em.getTransaction().rollback();
     em.getTransaction().begin();
-    
+
+    Empresa tamanho = null;
+    if (empresaId > 0) {
+        tamanho = em.find(Empresa.class, empresaId);
+    }
+
     //nao tem id \ id = 0 -> entra em cadastro
     if (id == 0) {
-        SituacaoPedido situacao_pedido = new SituacaoPedido();
-        situacao_pedido.setDescricao(descricao);
-        if (situacao_pedido != null) {
+        Entregador entregador = new Entregador();
+        entregador.setNome(nome);
+        entregador.setCpf(cpf);
+        entregador.setRg(rg);
+        entregador.setCelular(celular);        
+        if (tamanho != null){
+            entregador.setEmpresa(tamanho);
+        }
+        if (entregador != null) {
 
             try {
 
-                em.persist(situacao_pedido);
+                em.persist(entregador);
                 em.flush();
                 em.getTransaction().commit();
 
@@ -45,17 +64,22 @@
                 em.close();
             }
         }
-    //tem id  -> entra em edicao 
+        //tem id  -> entra em edicao 
     } else {
-        SituacaoPedido situacao_pedido = new SituacaoPedido();
-        situacao_pedido.setDescricao(descricao);
-        situacao_pedido.setId(id);
+        Entregador entregador = new Entregador();
+        entregador.setNome(nome);        
+        entregador.setCpf(cpf);
+        entregador.setRg(rg);
+        entregador.setCelular(celular);        
+        if (tamanho != null){
+            entregador.setEmpresa(tamanho);
+        }
 
-        em.find(SituacaoPedido.class, id);
+        em.find(Entregador.class, id);
 
         try {
 
-            em.merge(situacao_pedido);
+            em.merge(entregador);
             em.flush();
             em.getTransaction().commit();
 

@@ -26,7 +26,7 @@
                     }).done(function (data) {
                         if (data.trim() == "success") {
                             atualizaGrade();
-                            cancelarEdicao();                            
+                            cancelarEdicao();
                             $("#msgSucesso").text("Registro cadastrado!");
                             $("#alertaSucesso").show(1000, function () {
                                 setTimeout(function () {
@@ -47,27 +47,31 @@
                     });
                 });
             });
-            
-            function cancelarEdicao(){
-                $("#tamanhoId").val("");
-                    $("#descricao").val("");
+
+            function cancelarEdicao() {
+                $("#clienteId").val("");
+                $("#nome").val("");
+                $("#telefone").val("");
+                $("#endereco").val("");
+                $("#ponto_referencia").val("");
+                $("#nascimento").val("");
             }
 
             $(function () {
                 $('#cancelar').click(function (event) {
                     cancelarEdicao();
-                    
+
                 })
             });
             function atualizaGrade() {
-                $.get("jsp/tamanho/consultaParaGrade.jsp", function (data, status) {
-                    $("#consTamanhos").html(data);
+                $.get("jsp/cliente/consultaParaGrade.jsp", function (data, status) {
+                    $("#consClientes").html(data);
                 });
             }
             atualizaGrade();
             function excluir(id) {
                 if (id > 0) {
-                    $.post("jsp/tamanho/excluir.jsp", {id: id},
+                    $.post("jsp/cliente/excluir.jsp", {id: id},
                             function (data, status) {
                                 if (status == "success") {
                                     if (data.trim() == "success") {
@@ -90,14 +94,28 @@
                             })
                 }
             }
+            function addChar(str, tamanho, char) {
+                var str2 = str + '';
+                while (str2.length < tamanho) {
+                    str2 = '' + char + '' + str2 + '';
+                }
+                return str2;
+            }
             function editar(id) {
-                $.post("jsp/tamanho/consParaAlterar.jsp", {id: id},
+                $.post("jsp/cliente/consParaAlterar.jsp", {id: id},
                         function (data, status) {
-                            if (status == "success"){
+                            if (status == "success") {
                                 var obj = JSON.parse(data);
-                                $('#tamanhoId').val(obj.id);
-                                $('#descricao').val(obj.descricao);
-                            }                            
+
+                                $('#clienteId').val(obj.id);
+                                $('#nome').val(obj.nome);
+                                $('#telefone').val(obj.telefone);
+                                $('#endereco').val(obj.endereco);
+                                $('#ponto_referencia').val(obj.ponto_referencia);
+                                if (obj.nascimento) {
+                                    $('#nascimento').val(obj.nascimento.year + "-" + addChar((obj.nascimento.month + 1), 2, '0') + "-" + addChar(obj.nascimento.dayOfMonth, 2, '0'));
+                                }
+                            }
                         });
             }
         </script>
@@ -129,27 +147,51 @@
                     </div>                    
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6">
-                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/tamanho/alteracaoCadastro.jsp">
+                        <div class="col-md-8">
+                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/cliente/alteracaoCadastro.jsp">
                                 <fieldset>
                                     <!-- Form Name -->
-                                    <legend>Cadastro de Tamanho</legend>
+                                    <legend>Cadastro de Cliente</legend>
 
                                     <div class="form-group form-group-sm">
-                                        <label for="tamanhoId" class="control-label col-sm-2">Id</label>
+                                        <label for="clienteId" class="control-label col-sm-2">Id</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="tamanhoId" name="tamanhoId" placeholder="0" readonly="">
+                                            <input type="text" class="form-control" id="clienteId" name="clienteId" placeholder="0" readonly="">
 
                                         </div>
                                     </div>
 
                                     <div class="form-group form-group-sm">
-                                        <label for="descricao" class="control-label col-sm-2">Descrição</label>
+                                        <label for="nome" class="control-label col-sm-2">Nome</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="descricao" name="descricao" placeholder="" required="">
+                                            <input type="text" class="form-control" id="nome" name="nome" placeholder="" required="">
 
                                         </div>
                                     </div>
+                                    <div class="form-group form-group-sm">
+                                        <label for="telefone" class="control-label col-sm-2">Telefone</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="telefone" name="telefone" placeholder="" required="">
+                                        </div>
+                                    </div>                                    
+                                    <div class="form-group form-group-sm">
+                                        <label for="endereco" class="control-label col-sm-2">Endereço</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="endereco" name="endereco" placeholder="" required="">
+                                        </div>
+                                    </div>                                                                        
+                                    <div class="form-group form-group-sm">
+                                        <label for="ponto_referencia" class="control-label col-sm-2">Ponto Ref.</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="ponto_referencia" name="ponto_referencia" placeholder="" required="">
+                                        </div>
+                                    </div>                                    
+                                    <div class="form-group form-group-sm">
+                                        <label for="nascimento" class="control-label col-sm-2">Nascimento</label>
+                                        <div class="col-sm-4">
+                                            <input type="date" class="form-control" id="nascimento" name="nascimento" placeholder="">
+                                        </div>
+                                    </div>                                           
 
                                     <div class="form-group">
                                         <label class="control-label col-sm-2"></label>
@@ -166,7 +208,7 @@
                                 </fieldset>
                             </form>
                         </div>                        
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                         </div>                        
                     </div>
                     <div class="row">
@@ -175,7 +217,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6" id="consTamanhos" name="consTamanhos">
+                        <div class="col-md-8" id="consClientes" name="consClientes">
                         </div>
                     </div>
                 </div>

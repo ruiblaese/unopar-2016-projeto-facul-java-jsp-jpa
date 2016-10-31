@@ -1,4 +1,3 @@
-
 package modelo;
 
 import java.io.Serializable;
@@ -30,6 +29,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "produto")
 public class Produto implements Serializable {
+
     @Id
     @SequenceGenerator(name = "seq_produto", sequenceName = "seq_produto_id", allocationSize = 1)
     @GeneratedValue(generator = "seq_produto", strategy = GenerationType.SEQUENCE)
@@ -44,15 +44,15 @@ public class Produto implements Serializable {
     @Length(max = 200, message = "O descricao não pode ter mais de {max} caracteres")
     @Column(name = "descricao", length = 200, nullable = false)
     private String descricao;
-    @NotNull(message = "O preço deve ser informado")    
+    @NotNull(message = "O preço deve ser informado")
     @Column(name = "preco", nullable = false, columnDefinition = "decimal(12,2)")
     private Double preco;
     @ManyToOne
     @JoinColumn(name = "tamanho_id", referencedColumnName = "id", nullable = true)
-    private Tamanho tamanho;            
+    private Tamanho tamanho;
 
     public Produto() {
-    }       
+    }
 
     public Integer getId() {
         return id;
@@ -79,21 +79,33 @@ public class Produto implements Serializable {
     }
 
     public Double getPreco() {
-        return preco;
+        if (preco == null) {
+            return 0.00;
+        } else {
+            return preco;
+        }
     }
 
     public void setPreco(Double preco) {
-        this.preco = preco;
+        if (preco == null) {
+            this.preco = 0.00;
+        } else {
+            this.preco = preco;
+        }
+
     }
 
     public Tamanho getTamanho() {
-        return tamanho;
+        if (tamanho == null) {
+            return new Tamanho();
+        } else {
+            return tamanho;
+        }
     }
 
     public void setTamanho(Tamanho tamanho) {
         this.tamanho = tamanho;
     }
-
 
     @Override
     public int hashCode() {

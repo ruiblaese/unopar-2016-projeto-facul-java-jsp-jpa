@@ -49,6 +49,9 @@ public class Pedido implements Serializable {
     @NotNull(message = "O Subtotal deve ser informado")    
     @Column(name = "sub_total", nullable = false, columnDefinition = "decimal(12,2)")
     private Double sub_total;
+    @NotNull(message = "O valor entrega deve ser informado")    
+    @Column(name = "valor_entrega", nullable = false, columnDefinition = "decimal(12,2)")
+    private Double valor_entrega;    
     @NotNull(message = "O total deve ser informado")    
     @Column(name = "total", nullable = false, columnDefinition = "decimal(12,2)")
     private Double total;    
@@ -111,8 +114,14 @@ public class Pedido implements Serializable {
     public void setTotal(Double total) {
         this.total = total;
     }
-    
-    
+
+    public Double getValor_entrega() {
+        return valor_entrega;
+    }
+
+    public void setValor_entrega(Double valor_entrega) {
+        this.valor_entrega = valor_entrega;
+    }
 
     @Override
     public int hashCode() {

@@ -26,7 +26,7 @@
                     }).done(function (data) {
                         if (data.trim() == "success") {
                             atualizaGrade();
-                            cancelarEdicao();                            
+                            cancelarEdicao();
                             $("#msgSucesso").text("Registro cadastrado!");
                             $("#alertaSucesso").show(1000, function () {
                                 setTimeout(function () {
@@ -47,27 +47,31 @@
                     });
                 });
             });
-            
-            function cancelarEdicao(){
-                $("#tamanhoId").val("");
-                    $("#descricao").val("");
+
+            function cancelarEdicao() {
+                $("#empresaId").val("");
+                $("#nome").val("");
+                $("#cnpj").val("");
+                $("#endereco").val("");
+                $("#telefone").val("");
+                $("#email").val("");
             }
 
             $(function () {
                 $('#cancelar').click(function (event) {
                     cancelarEdicao();
-                    
+
                 })
             });
             function atualizaGrade() {
-                $.get("jsp/tamanho/consultaParaGrade.jsp", function (data, status) {
-                    $("#consTamanhos").html(data);
+                $.get("jsp/empresa/consultaParaGrade.jsp", function (data, status) {
+                    $("#consEmpresas").html(data);
                 });
             }
             atualizaGrade();
             function excluir(id) {
                 if (id > 0) {
-                    $.post("jsp/tamanho/excluir.jsp", {id: id},
+                    $.post("jsp/empresa/excluir.jsp", {id: id},
                             function (data, status) {
                                 if (status == "success") {
                                     if (data.trim() == "success") {
@@ -91,13 +95,17 @@
                 }
             }
             function editar(id) {
-                $.post("jsp/tamanho/consParaAlterar.jsp", {id: id},
+                $.post("jsp/empresa/consParaAlterar.jsp", {id: id},
                         function (data, status) {
-                            if (status == "success"){
+                            if (status == "success") {
                                 var obj = JSON.parse(data);
-                                $('#tamanhoId').val(obj.id);
-                                $('#descricao').val(obj.descricao);
-                            }                            
+                                $('#empresaId').val(obj.id);
+                                $('#nome').val(obj.nome);
+                                $('#cnpj').val(obj.cnpj);
+                                $('#endereco').val(obj.endereco);
+                                $('#telefone').val(obj.telefone);
+                                $('#email').val(obj.email);
+                            }
                         });
             }
         </script>
@@ -129,24 +137,52 @@
                     </div>                    
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6">
-                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/tamanho/alteracaoCadastro.jsp">
+                        <div class="col-md-8">
+                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/empresa/alteracaoCadastro.jsp">
                                 <fieldset>
                                     <!-- Form Name -->
-                                    <legend>Cadastro de Tamanho</legend>
+                                    <legend>Cadastro de Empresa</legend>
 
                                     <div class="form-group form-group-sm">
-                                        <label for="tamanhoId" class="control-label col-sm-2">Id</label>
+                                        <label for="empresaId" class="control-label col-sm-2">Id</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="tamanhoId" name="tamanhoId" placeholder="0" readonly="">
+                                            <input type="text" class="form-control" id="empresaId" name="empresaId" placeholder="0" readonly="">
 
                                         </div>
                                     </div>
 
                                     <div class="form-group form-group-sm">
-                                        <label for="descricao" class="control-label col-sm-2">Descrição</label>
+                                        <label for="nome" class="control-label col-sm-2">Descrição</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="descricao" name="descricao" placeholder="" required="">
+                                            <input type="text" class="form-control" id="nome" name="nome" placeholder="" required="">
+
+                                        </div>
+                                    </div>                                    
+                                    <div class="form-group form-group-sm">
+                                        <label for="cnpj" class="control-label col-sm-2">CNPJ</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="" required="">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-sm">
+                                        <label for="endereco" class="control-label col-sm-2">Endereço</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="endereco" name="endereco" placeholder="" required="">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-sm">
+                                        <label for="telefone" class="control-label col-sm-2">Telefone</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="telefone" name="telefone" placeholder="" required="">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-group-sm">
+                                        <label for="email" class="control-label col-sm-2">Email</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="" required="">
 
                                         </div>
                                     </div>
@@ -166,7 +202,7 @@
                                 </fieldset>
                             </form>
                         </div>                        
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                         </div>                        
                     </div>
                     <div class="row">
@@ -175,7 +211,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6" id="consTamanhos" name="consTamanhos">
+                        <div class="col-md-8" id="consEmpresas" name="consEmpresas">
                         </div>
                     </div>
                 </div>

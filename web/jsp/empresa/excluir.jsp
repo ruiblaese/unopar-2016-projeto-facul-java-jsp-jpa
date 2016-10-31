@@ -1,4 +1,4 @@
-<%@page import="modelo.SituacaoPedido"%>
+<%@page import="modelo.Empresa"%>
 <%@page import="jpa.EntityManagerUtil"%>
 <%@page import="javax.persistence.EntityManager"%>
 <%
@@ -11,13 +11,13 @@
     em.getTransaction().rollback();
     em.getTransaction().begin();
 
-    SituacaoPedido situacao_pedido = em.find(SituacaoPedido.class, id);
+    Empresa empresa = em.find(Empresa.class, id);
     String retorno = "erro";
-    if (situacao_pedido != null) {
+    if (empresa != null) {
 
         try {
 
-            em.remove(situacao_pedido);
+            em.remove(empresa);
             em.flush();
             em.getTransaction().commit();
 

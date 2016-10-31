@@ -15,13 +15,13 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu<strong class="caret"></strong></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="#">Cliente</a>
+                                            <a href="cliente.jsp">Cliente</a>
                                         </li>
                                         <li>
-                                            <a href="#">Entregador</a>
+                                            <a href="entregador.jsp">Entregador</a>
                                         </li>
                                         <li>
-                                            <a href="#">Empresa</a>
+                                            <a href="empresa.jsp">Empresa</a>
                                         </li>
                                         <li class="divider">
                                         </li>
@@ -29,12 +29,15 @@
                                             <a href="tamanho.jsp">Tamanho</a>
                                         </li>
                                         <li>
-                                            <a href="#">Produto</a>
+                                            <a href="produto.jsp">Produto</a>
                                         </li>
                                         <li class="divider">
                                         </li>
                                         <li>
-                                            <a href="#">Pedido</a>
+                                            <a href="situacao_pedido.jsp">Situação Pedido</a>
+                                        </li>
+                                        <li>
+                                            <a href="pedido.jsp">Pedido</a>
                                         </li>
                                     </ul>
                                 </li>

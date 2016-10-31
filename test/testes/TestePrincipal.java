@@ -30,6 +30,7 @@ public class TestePrincipal {
         EntityManager em;
         em = EntityManagerUtil.getEntityManager();
         
+        /*
          Tamanho tamanho;
 
         tamanho = new Tamanho();
@@ -62,8 +63,7 @@ public class TestePrincipal {
         em.persist(tamanho);
         em.getTransaction().commit();
         
-        /*
-         
+    */
 
         Cliente cliente = new Cliente();
         cliente.setNome("rui");
@@ -139,6 +139,7 @@ public class TestePrincipal {
         pedido.setSituacaoPedido(situacaoPedido);
         pedido.setSub_total(0.00);
         pedido.setTotal(0.00);
+        pedido.setValor_entrega(0.00);
 
         em.getTransaction().begin();
         em.persist(pedido);
@@ -154,7 +155,7 @@ public class TestePrincipal {
         em.getTransaction().begin();
         em.persist(itemPedido);
         em.getTransaction().commit();
-    */
+  
 
     }
 

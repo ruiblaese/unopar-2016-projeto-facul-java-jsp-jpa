@@ -1,5 +1,5 @@
 <%@page import="com.google.gson.Gson"%>
-<%@page import="modelo.Tamanho"%>
+<%@page import="modelo.SituacaoPedido"%>
 <%@page import="jpa.EntityManagerUtil"%>
 <%@page import="javax.persistence.EntityManager"%>
 <%
@@ -12,14 +12,14 @@
     em.getTransaction().rollback();
     em.getTransaction().begin();
 
-    Tamanho tamanho = em.find(Tamanho.class, id);
+    SituacaoPedido sitPedido = em.find(SituacaoPedido.class, id);
     String retorno = "erro";
-    if (tamanho != null) {
+    if (sitPedido != null) {
 
         try {
             retorno = "";
             Gson gson = new Gson();
-            retorno = gson.toJson(tamanho);;
+            retorno = gson.toJson(sitPedido);;
         } catch (Exception e) {
             retorno = "Não foi possivel remover esse registro. (" + e.getMessage() + "\n" + e.getLocalizedMessage() + "\n" + e.toString() + ")";
             retorno = retorno.trim();

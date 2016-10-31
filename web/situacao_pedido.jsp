@@ -49,7 +49,7 @@
             });
             
             function cancelarEdicao(){
-                $("#tamanhoId").val("");
+                $("#situacao_pedidoId").val("");
                     $("#descricao").val("");
             }
 
@@ -60,14 +60,14 @@
                 })
             });
             function atualizaGrade() {
-                $.get("jsp/tamanho/consultaParaGrade.jsp", function (data, status) {
-                    $("#consTamanhos").html(data);
+                $.get("jsp/situacao_pedido/consultaParaGrade.jsp", function (data, status) {
+                    $("#consSituacaoPedidos").html(data);
                 });
             }
             atualizaGrade();
             function excluir(id) {
                 if (id > 0) {
-                    $.post("jsp/tamanho/excluir.jsp", {id: id},
+                    $.post("jsp/situacao_pedido/excluir.jsp", {id: id},
                             function (data, status) {
                                 if (status == "success") {
                                     if (data.trim() == "success") {
@@ -91,11 +91,11 @@
                 }
             }
             function editar(id) {
-                $.post("jsp/tamanho/consParaAlterar.jsp", {id: id},
+                $.post("jsp/situacao_pedido/consParaAlterar.jsp", {id: id},
                         function (data, status) {
                             if (status == "success"){
                                 var obj = JSON.parse(data);
-                                $('#tamanhoId').val(obj.id);
+                                $('#situacao_pedidoId').val(obj.id);
                                 $('#descricao').val(obj.descricao);
                             }                            
                         });
@@ -130,15 +130,15 @@
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-6">
-                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/tamanho/alteracaoCadastro.jsp">
+                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/situacao_pedido/alteracaoCadastro.jsp">
                                 <fieldset>
                                     <!-- Form Name -->
-                                    <legend>Cadastro de Tamanho</legend>
+                                    <legend>Cadastro de SituacaoPedido</legend>
 
                                     <div class="form-group form-group-sm">
-                                        <label for="tamanhoId" class="control-label col-sm-2">Id</label>
+                                        <label for="situacao_pedidoId" class="control-label col-sm-2">Id</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="tamanhoId" name="tamanhoId" placeholder="0" readonly="">
+                                            <input type="text" class="form-control" id="situacao_pedidoId" name="situacao_pedidoId" placeholder="0" readonly="">
 
                                         </div>
                                     </div>
@@ -175,7 +175,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6" id="consTamanhos" name="consTamanhos">
+                        <div class="col-md-6" id="consSituacaoPedidos" name="consSituacaoPedidos">
                         </div>
                     </div>
                 </div>

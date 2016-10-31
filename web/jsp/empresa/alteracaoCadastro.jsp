@@ -1,16 +1,19 @@
 <%@page import="java.util.Enumeration"%>
-<%@page import="modelo.SituacaoPedido"%>
+<%@page import="modelo.Empresa"%>
 <%@page import="jpa.EntityManagerUtil"%>
 <%@page import="javax.persistence.EntityManager"%>
 <%
     String retorno = "erro";
-    String descricao = request.getParameter("descricao");
+    String nome = request.getParameter("nome");
+    String cnpj = request.getParameter("cnpj");
+    String endereco = request.getParameter("endereco");
+    String telefone = request.getParameter("telefone");
+    String email = request.getParameter("email");
     int id = 0;
-    
-    //verifica se eh edicao ( no caso se tem id para ser alterado )
-    if (request.getParameterMap().containsKey("situacao_pedidoId")) {
-        if (!request.getParameter("situacao_pedidoId").isEmpty()) {
-            id = Integer.valueOf(request.getParameter("situacao_pedidoId"));
+
+    if (request.getParameterMap().containsKey("empresaId")) {
+        if (!request.getParameter("empresaId").isEmpty()) {
+            id = Integer.valueOf(request.getParameter("empresaId"));
         }
     }
     
@@ -21,16 +24,20 @@
     }
     em.getTransaction().rollback();
     em.getTransaction().begin();
-    
-    //nao tem id \ id = 0 -> entra em cadastro
+
     if (id == 0) {
-        SituacaoPedido situacao_pedido = new SituacaoPedido();
-        situacao_pedido.setDescricao(descricao);
-        if (situacao_pedido != null) {
+        Empresa empresa = new Empresa();
+        empresa.setNome(nome);
+        empresa.setCnpj(cnpj);
+        empresa.setEndereco(endereco);
+        empresa.setTelefone(telefone);
+        empresa.setEmail(email);
+        
+        if (empresa != null) {
 
             try {
 
-                em.persist(situacao_pedido);
+                em.persist(empresa);
                 em.flush();
                 em.getTransaction().commit();
 
@@ -45,17 +52,20 @@
                 em.close();
             }
         }
-    //tem id  -> entra em edicao 
     } else {
-        SituacaoPedido situacao_pedido = new SituacaoPedido();
-        situacao_pedido.setDescricao(descricao);
-        situacao_pedido.setId(id);
+        Empresa empresa = new Empresa();        
+        empresa.setId(id);
+        empresa.setNome(nome);
+        empresa.setCnpj(cnpj);
+        empresa.setEndereco(endereco);
+        empresa.setTelefone(telefone);
+        empresa.setEmail(email);        
 
-        em.find(SituacaoPedido.class, id);
+        em.find(Empresa.class, id);
 
         try {
 
-            em.merge(situacao_pedido);
+            em.merge(empresa);
             em.flush();
             em.getTransaction().commit();
 

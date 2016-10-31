@@ -26,7 +26,7 @@
                     }).done(function (data) {
                         if (data.trim() == "success") {
                             atualizaGrade();
-                            cancelarEdicao();                            
+                            cancelarEdicao();
                             $("#msgSucesso").text("Registro cadastrado!");
                             $("#alertaSucesso").show(1000, function () {
                                 setTimeout(function () {
@@ -47,27 +47,29 @@
                     });
                 });
             });
-            
-            function cancelarEdicao(){
-                $("#tamanhoId").val("");
-                    $("#descricao").val("");
-            }
 
+            function cancelarEdicao() {
+                $("#produtoId").val("");
+                $("#descricao").val("");
+                $("#nome").val("");
+                $("#preco").val("");
+                $("#tamanhoId").val("");
+                $("#listaTamanho").val("").change();
+            }
             $(function () {
                 $('#cancelar').click(function (event) {
                     cancelarEdicao();
-                    
-                })
+                });
             });
             function atualizaGrade() {
-                $.get("jsp/tamanho/consultaParaGrade.jsp", function (data, status) {
-                    $("#consTamanhos").html(data);
+                $.get("jsp/produto/consultaParaGrade.jsp", function (data, status) {
+                    $("#consProdutos").html(data);
                 });
             }
             atualizaGrade();
             function excluir(id) {
                 if (id > 0) {
-                    $.post("jsp/tamanho/excluir.jsp", {id: id},
+                    $.post("jsp/produto/excluir.jsp", {id: id},
                             function (data, status) {
                                 if (status == "success") {
                                     if (data.trim() == "success") {
@@ -91,15 +93,37 @@
                 }
             }
             function editar(id) {
-                $.post("jsp/tamanho/consParaAlterar.jsp", {id: id},
+                $.post("jsp/produto/consParaAlterar.jsp", {id: id},
                         function (data, status) {
-                            if (status == "success"){
+                            if (status == "success") {
                                 var obj = JSON.parse(data);
-                                $('#tamanhoId').val(obj.id);
+                                $('#produtoId').val(obj.id);
                                 $('#descricao').val(obj.descricao);
-                            }                            
+                                $('#nome').val(obj.nome);
+                                $('#preco').val(obj.preco);
+                                $('#tamanhoId').val(obj.tamanho.id);
+                                $('#listaTamanho').val(obj.tamanho.id).change();
+                            }
                         });
             }
+
+            function aoMudarTamanhoId() {
+                if ($("#tamanhoId").val() > 0) {
+                    $("#listaTamanho").val($("#tamanhoId").val()).change();
+                }
+            }
+            function aoMudarListaTamanho() {
+                if ($("#listaTamanho").val() > 0) {
+                    $("#tamanhoId").val($("#listaTamanho").val());
+                }
+            }            
+            function atualizaListaTamanho() {
+                $.get("jsp/produto/consultaTamanho.jsp", function (data, status) {
+                    $("#listaTamanho").html(data);
+                });
+            }            
+            atualizaListaTamanho();
+
         </script>
     </head>
     <body>
@@ -129,28 +153,56 @@
                     </div>                    
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6">
-                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/tamanho/alteracaoCadastro.jsp">
+                        <div class="col-md-8">
+                            <form class="form-horizontal" id="formCad" name="formCad" action="jsp/produto/alteracaoCadastro.jsp">
                                 <fieldset>
                                     <!-- Form Name -->
-                                    <legend>Cadastro de Tamanho</legend>
+                                    <legend>Cadastro de Produto</legend>
 
                                     <div class="form-group form-group-sm">
-                                        <label for="tamanhoId" class="control-label col-sm-2">Id</label>
+                                        <label for="produtoId" class="control-label col-sm-2">Id</label>
                                         <div class="col-sm-2">
-                                            <input type="text" class="form-control" id="tamanhoId" name="tamanhoId" placeholder="0" readonly="">
+                                            <input type="text" class="form-control" id="produtoId" name="produtoId" placeholder="0" readonly="">
 
                                         </div>
                                     </div>
 
+                                    <div class="form-group form-group-sm">
+                                        <label for="nome" class="control-label col-sm-2">Nome</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="nome" name="nome" placeholder="" required="">
+
+                                        </div>
+                                    </div>
                                     <div class="form-group form-group-sm">
                                         <label for="descricao" class="control-label col-sm-2">Descrição</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="descricao" name="descricao" placeholder="" required="">
 
                                         </div>
+                                    </div>                                    
+                                    <div class="form-group form-group-sm">
+                                        <label for="preco" class="control-label col-sm-2">Preço</label>
+                                        <div class="col-sm-4">
+                                            <input type="number" class="form-control" id="preco" name="preco" placeholder="" required="">
+
+                                        </div>
                                     </div>
 
+                                    <div class="form-group form-group-sm">
+                                        <label for="tamanho" class="control-label col-sm-2">Tamanho</label>                                        
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="tamanhoId" name="tamanhoId" onchange="aoMudarTamanhoId();">
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <select id="listaTamanho" name="listaTamanho" class="form-control" onchange="aoMudarListaTamanho();">
+                                                <option value=""></option>
+                                                <option value="1">Opcao 1</option>
+                                                <option value="2">Option 2</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label class="control-label col-sm-2"></label>
                                         <div class="text-right col-sm-10">
@@ -166,7 +218,7 @@
                                 </fieldset>
                             </form>
                         </div>                        
-                        <div class="col-md-4">
+                        <div class="col-md-">
                         </div>                        
                     </div>
                     <div class="row">
@@ -175,7 +227,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2"></div>
-                        <div class="col-md-6" id="consTamanhos" name="consTamanhos">
+                        <div class="col-md-8" id="consProdutos" name="consProdutos">
                         </div>
                     </div>
                 </div>

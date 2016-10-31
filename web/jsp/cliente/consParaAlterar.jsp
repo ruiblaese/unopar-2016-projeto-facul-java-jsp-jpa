@@ -1,4 +1,5 @@
-<%@page import="modelo.SituacaoPedido"%>
+<%@page import="com.google.gson.Gson"%>
+<%@page import="modelo.Cliente"%>
 <%@page import="jpa.EntityManagerUtil"%>
 <%@page import="javax.persistence.EntityManager"%>
 <%
@@ -11,17 +12,14 @@
     em.getTransaction().rollback();
     em.getTransaction().begin();
 
-    SituacaoPedido situacao_pedido = em.find(SituacaoPedido.class, id);
+    Cliente cliente = em.find(Cliente.class, id);
     String retorno = "erro";
-    if (situacao_pedido != null) {
+    if (cliente != null) {
 
         try {
-
-            em.remove(situacao_pedido);
-            em.flush();
-            em.getTransaction().commit();
-
-            retorno = "success";
+            retorno = "";
+            Gson gson = new Gson();
+            retorno = gson.toJson(cliente);;
         } catch (Exception e) {
             retorno = "Não foi possivel remover esse registro. (" + e.getMessage() + "\n" + e.getLocalizedMessage() + "\n" + e.toString() + ")";
             retorno = retorno.trim();

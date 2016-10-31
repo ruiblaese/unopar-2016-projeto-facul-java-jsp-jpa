@@ -1,4 +1,3 @@
-
 package modelo;
 
 import java.io.Serializable;
@@ -28,6 +27,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "cliente")
 public class Cliente implements Serializable {
+
     @Id
     @SequenceGenerator(name = "seq_cliente", sequenceName = "seq_cliente_id", allocationSize = 1)
     @GeneratedValue(generator = "seq_cliente", strategy = GenerationType.SEQUENCE)
@@ -40,20 +40,20 @@ public class Cliente implements Serializable {
     @NotNull(message = "O telefone não pode ser nulo")
     @NotBlank(message = "O telefone não ser em branco")
     @Length(max = 14, message = "O telefone não pode ter mais de {max} caracteres")
-    @Column(name = "telefone", length = 14, nullable = false)    
-    private String telefone;    
+    @Column(name = "telefone", length = 14, nullable = false)
+    private String telefone;
     @Length(max = 50, message = "O nome não pode ter mais de {max} caracteres")
     @Column(name = "endereco", length = 100, nullable = false)
     private String endereco;
     @Length(max = 50, message = "O ponto referencia não pode ter mais de {max} caracteres")
     @Column(name = "ponto_referencia", length = 100, nullable = false)
-    private String ponto_referencia;    
+    private String ponto_referencia;
     @Temporal(TemporalType.DATE)
     @Column(name = "nascimento", nullable = true)
-    private Calendar nascimento;   
+    private Calendar nascimento;
 
     public Cliente() {
-    }       
+    }
 
     public Integer getId() {
         return id;
@@ -95,14 +95,13 @@ public class Cliente implements Serializable {
         this.ponto_referencia = ponto_referencia;
     }
 
-    public Calendar getNascimento() {
-        return nascimento;
+    public Calendar getNascimento() {        
+            return nascimento;        
     }
 
     public void setNascimento(Calendar nascimento) {
         this.nascimento = nascimento;
     }
-   
 
     @Override
     public int hashCode() {
