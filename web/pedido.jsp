@@ -59,6 +59,7 @@
                             type: form.attr('method'),
                             url: form.attr('action'),
                             data: {
+                                pedidoId: $("#pedidoId").val(),
                                 data: $("#data").val(),
                                 clienteId: $("#clienteId").val(),
                                 entregadorId: $("#entregadorId").val(),
@@ -105,8 +106,8 @@
                             type: form.attr('method'),
                             url: form.attr('action'),
                             data: {
-                                qtdeItens: $("#qtdeItens").val(),
-                                produtoId: $("#produtoId").val(),
+                                qtdeItens: $("#qtdeItens").val().trim(),
+                                produtoId: $("#produtoId").val().trim(),
                                 qtde: $("#qtde").val()
                             }
                         }).done(function (data) {
